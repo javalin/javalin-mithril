@@ -37,7 +37,7 @@ public class MithrilComponent implements Handler {
     public void handle(Context ctx) throws Exception {
         try {
             String page = JavalinMithril.layoutPage()
-                    .replace("@routeComponent", String.format("new %s()", componentFullClassName))
+                    .replace("@routeComponent", String.format("m(%s)", componentFullClassName))
                     .replace("@componentRegistration", "<script>\n@serverState\n@componentRegistration\n</script>")
                     .replace("@componentRegistration", JavalinMithril.resolver().resolve(componentFullClassName))
                     .replace("@serverState", state(ctx))
