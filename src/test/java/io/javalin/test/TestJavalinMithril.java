@@ -27,7 +27,6 @@ public class TestJavalinMithril {
     @Before
     public void setupTest() {
         JavalinMithril.isDev(true);
-        JavalinMithril.isDevFunction = ctx -> true;
         JavalinMithril.stateFunction = ctx -> Collections.singletonMap("test", "var");
         JavalinMithril.rootDirectory("src/test/resources/mithril", Location.EXTERNAL);
     }

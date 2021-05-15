@@ -31,9 +31,9 @@ public class JavalinMithril {
     private static Set<Path> cachedPaths;
     private static MithrilDependencyResolver cachedResolver;
     private static Path rootDirectory = null;
-    private static Boolean isDev = null;
-    public static Function<Context, Boolean> isDevFunction = (ctx) -> ctx.req.getRequestURL().toString().contains("localhost");
+    private static Boolean isDev = false;
     public static Function<Context, Map> stateFunction = (ctx) -> emptyMap();
+    public static String cacheControl = "no-cache, no-store, must-revalidate";
     private static String indexPage;
 
     protected static Set<Path> paths() {
