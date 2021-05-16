@@ -10,9 +10,12 @@ import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import io.javalin.http.InternalServerErrorResponse;
 import io.javalin.plugin.json.JavalinJson;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -51,7 +54,11 @@ public class MithrilComponent implements Handler {
     private String state(Context ctx) {
         Map<String, Object> stateMap = new HashMap<>();
         stateMap.put("pathParams", ctx.pathParamMap());
-        stateMap.put("queryParams", ctx.queryParamMap());
+        stateMap.put("queryParams", ctx.queryParamMap().entrySet()
+                .stream()
+                .map(entry -> new SimpleImmutableEntry(entry.getKey(), (entry.getValue() == null || entry.getValue().size() > 0) ? entry.getValue() : entry.getValue().get(0)))
+                .collect(Collectors.toMap(Entry::getKey, Entry::getValue))
+        );
         Map componentState = new HashMap<>();
         Map globalState = JavalinMithril.stateFunction.apply(ctx);
         componentState.putAll(globalState);
