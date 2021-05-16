@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,7 +59,8 @@ public class TestJavalinMithril {
     public void mithrilComponentTest() throws Exception {
         Context ctx = getMockedContext();
         new MithrilComponent("io.javalin.test.ImportComponent").handle(ctx);
-
+        assertThat(ctx.resultString()).contains("io_javalin_test_ImportComponent");
+        assertThat(ctx.resultString()).contains("io_javalin_test_SingleComponent");
     }
 
     private Context getMockedContext() {
