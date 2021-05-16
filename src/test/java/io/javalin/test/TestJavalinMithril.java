@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
+import static org.mockito.Mockito.mock;
 
 /**
  *
@@ -56,9 +56,12 @@ public class TestJavalinMithril {
 
     @Test
     public void mithrilComponentTest() throws Exception {
-        Context ctx = new Context(Mockito.mock(HttpServletRequest.class), Mockito.mock(HttpServletResponse.class), new HashMap<>());
+        Context ctx = getMockedContext();
+        new MithrilComponent("io.javalin.test.ImportComponent").handle(ctx);
 
-        new MithrilComponent("io.javalin.test.NameSpaceComponent").handle(ctx);
+    }
 
+    private Context getMockedContext() {
+        return new Context(mock(HttpServletRequest.class), mock(HttpServletResponse.class), new HashMap<>());
     }
 }
