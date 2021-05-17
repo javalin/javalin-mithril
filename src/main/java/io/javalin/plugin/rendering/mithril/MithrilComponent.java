@@ -1,7 +1,16 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *  Copyright 2021 Tareq Kirresh
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package io.javalin.plugin.rendering.mithril;
 
@@ -26,11 +35,23 @@ public class MithrilComponent implements Handler {
     private final String componentFullClassName;
     private final Function<Context, Map> localStateFunction;
 
+    /**
+     * Routes to a Mithril component with the Fully Qualified Class Name
+     *
+     * @param componentFullClassName the FQCN of the component
+     */
     public MithrilComponent(String componentFullClassName) {
         this.componentFullClassName = componentFullClassName.replaceAll("\\.", "_");
         this.localStateFunction = null;
     }
 
+    /**
+     * Routes to a Mithril component with the Fully Qualified Class Name and a
+     * Local State Function
+     *
+     * @param componentFullClassName the FQCN of the component
+     * @param localStateFunction the state function
+     */
     public MithrilComponent(String componentFullClassName, Function<Context, Map> localStateFunction) {
         this.componentFullClassName = componentFullClassName.replaceAll("\\.", "_");
         this.localStateFunction = localStateFunction;
