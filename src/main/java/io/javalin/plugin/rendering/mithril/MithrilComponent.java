@@ -56,7 +56,7 @@ public class MithrilComponent implements Handler {
         stateMap.put("pathParams", ctx.pathParamMap());
         stateMap.put("queryParams", ctx.queryParamMap().entrySet()
                 .stream()
-                .map(entry -> new SimpleImmutableEntry(entry.getKey(), (entry.getValue() == null || entry.getValue().size() > 0) ? entry.getValue() : entry.getValue().get(0)))
+                .map(entry -> new SimpleImmutableEntry(entry.getKey(), (entry.getValue() == null || entry.getValue().size() > 1) ? entry.getValue() : entry.getValue().get(0)))
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue))
         );
         Map componentState = new HashMap<>();

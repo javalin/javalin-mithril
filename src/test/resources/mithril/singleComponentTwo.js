@@ -1,6 +1,6 @@
 @package io.javalin.test2;
 
-class SimpleComponent{
+class SingleComponent{
     constructor(){
         console.log("JUNK")
     }
