@@ -33,7 +33,7 @@ public class JavalinMithril {
     private static Path rootDirectory = null;
     private static Boolean isDev = false;
     protected static Function<Context, Map> stateFunction = (ctx) -> emptyMap();
-    public static String cacheControl = "no-cache, no-store, must-revalidate";
+    protected static String cacheControl = "no-cache, no-store, must-revalidate";
     private static String indexPage;
 
     public static class JavalinMithrilConfig {
@@ -49,6 +49,11 @@ public class JavalinMithril {
 
         public JavalinMithrilConfig filePath(String path) {
             JavalinMithril.rootDirectory = Paths.get(path);
+            return this;
+        }
+
+        public JavalinMithrilConfig cacheControl(String cacheControl) {
+            JavalinMithril.cacheControl = cacheControl;
             return this;
         }
 
