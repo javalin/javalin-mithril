@@ -6,7 +6,6 @@
 package io.javalin.plugin.rendering.mithril;
 
 import io.javalin.http.Context;
-import io.javalin.http.staticfiles.Location;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,6 +19,7 @@ import java.nio.file.FileSystems;
 import java.util.Collections;
 import static java.util.Collections.emptyMap;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -32,9 +32,41 @@ public class JavalinMithril {
     private static MithrilDependencyResolver cachedResolver;
     private static Path rootDirectory = null;
     private static Boolean isDev = false;
-    public static Function<Context, Map> stateFunction = (ctx) -> emptyMap();
+    protected static Function<Context, Map> stateFunction = (ctx) -> emptyMap();
     public static String cacheControl = "no-cache, no-store, must-revalidate";
     private static String indexPage;
+
+    public static class JavalinMithrilConfig {
+
+        public JavalinMithrilConfig() {
+
+        }
+
+        public JavalinMithrilConfig classpathPath(String path) {
+            JavalinMithril.rootDirectory = PathMaster.instance().classpathPath(path);
+            return this;
+        }
+
+        public JavalinMithrilConfig filePath(String path) {
+            JavalinMithril.rootDirectory = Paths.get(path);
+            return this;
+        }
+
+        public JavalinMithrilConfig isDev(boolean dev) {
+            JavalinMithril.isDev = dev;
+            return this;
+        }
+
+        public JavalinMithrilConfig stateFunction(Function<Context, Map> stateFunction) {
+            JavalinMithril.stateFunction = stateFunction;
+            return this;
+        }
+
+    }
+
+    public static void configure(Consumer<JavalinMithrilConfig> consumer) {
+        consumer.accept(new JavalinMithrilConfig());
+    }
 
     protected static Set<Path> paths() {
         if (cachedPaths == null || isDev()) {
@@ -47,24 +79,11 @@ public class JavalinMithril {
         return isDev;
     }
 
-    public static void isDev(boolean isDev) {
-        JavalinMithril.isDev = isDev;
-    }
-
     protected static Path rootDirectory() {
         if (rootDirectory == null) {
             rootDirectory = PathMaster.instance().defaultLocation(isDev);
         }
         return rootDirectory;
-    }
-
-    public static void rootDirectory(String path, Location location) {
-        if (location == Location.CLASSPATH) {
-            rootDirectory = PathMaster.instance().classpathPath(path);
-        } else {
-            rootDirectory = Paths.get(path);
-        }
-
     }
 
     public static MithrilDependencyResolver resolver() {

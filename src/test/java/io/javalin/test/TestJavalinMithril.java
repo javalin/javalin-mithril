@@ -28,9 +28,11 @@ public class TestJavalinMithril {
 
     @Before
     public void setupTest() {
-        JavalinMithril.isDev(true);
-        JavalinMithril.stateFunction = ctx -> singletonMap("test", "var");
-        JavalinMithril.rootDirectory("src/test/resources/mithril", Location.EXTERNAL);
+        JavalinMithril.configure(config -> {
+            config.isDev(true)
+                    .stateFunction(ctx -> singletonMap("test", "var"))
+                    .filePath("src/test/resources/mithril");
+        });
     }
 
     @Test
@@ -105,7 +107,11 @@ public class TestJavalinMithril {
 
     @Test
     public void mithrilComponentCdnReplaceTestDev() {
-        JavalinMithril.isDev(true);
+        JavalinMithril.configure(config -> {
+            config.isDev(true)
+                    .stateFunction(ctx -> singletonMap("test", "var"))
+                    .filePath("src/test/resources/mithril");
+        });
         Context ctx = getMockedContext();
         try {
             new MithrilComponent("io.javalin.test.SingleComponent").handle(ctx);
@@ -117,7 +123,11 @@ public class TestJavalinMithril {
 
     @Test
     public void mithrilComponentCdnReplaceTestNonDev() {
-        JavalinMithril.isDev(false);
+        JavalinMithril.configure(config -> {
+            config.isDev(false)
+                    .stateFunction(ctx -> singletonMap("test", "var"))
+                    .filePath("src/test/resources/mithril");
+        });
         Context ctx = getMockedContext();
         try {
             new MithrilComponent("io.javalin.test.SingleComponent").handle(ctx);
@@ -158,20 +168,20 @@ public class TestJavalinMithril {
         Context ctx = getMockedContext();
 
         try {
-            new MithrilComponent("io.javalin.test.SingleComponent",(context) -> singletonMap("test", "var2")).handle(ctx);
+            new MithrilComponent("io.javalin.test.SingleComponent", (context) -> singletonMap("test", "var2")).handle(ctx);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
         assertThat(ctx.resultString()).contains("\"state\":{\"test\":\"var2\"}");
 
     }
-    
-      @Test
+
+    @Test
     public void mithrilComponentLocalStateTestAppend() {
         Context ctx = getMockedContext();
 
         try {
-            new MithrilComponent("io.javalin.test.SingleComponent",(context) -> singletonMap("test2", "var2")).handle(ctx);
+            new MithrilComponent("io.javalin.test.SingleComponent", (context) -> singletonMap("test2", "var2")).handle(ctx);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -223,10 +233,10 @@ public class TestJavalinMithril {
             assertThat(ex.getMessage()).contains("Component Class Does not exist not found");
         }
     }
-    
+
     @Test
-    public void mithrilPathParameterTest(){
-        
+    public void mithrilPathParameterTest() {
+
     }
 
     @Test
