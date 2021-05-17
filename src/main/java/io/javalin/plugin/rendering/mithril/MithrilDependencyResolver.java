@@ -95,10 +95,6 @@ public class MithrilDependencyResolver {
 
         }
 
-        public List<String> getFullClassNames() {
-            return fileClasses.stream().map(className -> fullClassName(className)).collect(Collectors.toList());
-        }
-
         String fullClassName(String name) {
             return filePackage.replaceAll("\\.", "_").concat("_").concat(name);
         }

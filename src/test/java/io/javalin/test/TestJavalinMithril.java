@@ -223,6 +223,11 @@ public class TestJavalinMithril {
             assertThat(ex.getMessage()).contains("Component Class Does not exist not found");
         }
     }
+    
+    @Test
+    public void mithrilPathParameterTest(){
+        
+    }
 
     @Test
     public void mithrilComponentSelfDependentTest() {
