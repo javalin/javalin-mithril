@@ -6,7 +6,6 @@
 package io.javalin.test;
 
 import io.javalin.http.Context;
-import io.javalin.http.staticfiles.Location;
 import io.javalin.plugin.rendering.mithril.JavalinMithril;
 import io.javalin.plugin.rendering.mithril.MithrilComponent;
 import static java.util.Collections.singletonMap;
