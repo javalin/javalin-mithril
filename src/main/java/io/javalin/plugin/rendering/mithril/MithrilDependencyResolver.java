@@ -50,6 +50,7 @@ public class MithrilDependencyResolver {
 
     /**
      * Resolves the component using its Fully Qualified Class Name
+     *
      * @param componentName the component FQCN
      * @return the component plus any dependencies
      */
@@ -121,7 +122,8 @@ public class MithrilDependencyResolver {
             }
 
             for (MithrilFile dependency : declaredDependencies) {
-                content = content.concat(dependency.content());
+                String dependencyContent = dependency.content();
+                content = content.contains(dependencyContent) ? content : content.concat(dependencyContent);
             }
             return content.replaceAll("@import\\s*\\S+\\s*", "").replaceAll("@package\\s*\\S+\\s*", "");
         }

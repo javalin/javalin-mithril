@@ -66,6 +66,17 @@ public class TestJavalinMithril {
     }
 
     @Test
+    public void mithrilComponentDuplicateDepndencyTest() {
+        Context ctx = getMockedContext();
+        try {
+            new MithrilComponent("io.javalin.test.ImportComponent3").handle(ctx);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        assertThat(ctx.resultString().replaceAll("\\s", "")).containsPattern("(io_javalin_test_SingleComponent.*?){3}");
+    }
+
+    @Test
     public void mithrilComponentImportTest() {
 
         Context ctx = getMockedContext();
