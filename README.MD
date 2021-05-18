@@ -15,6 +15,16 @@ Add the following to your ```pom.xml```
     <version>${LATEST_VERSION}</version>
 </dependency>
 ```
+
+You will also need the webjar for Mithril.js
+
+```xml
+<dependency>
+    <groupId>org.webjars.npm</groupId>
+    <artifactId>mithril</artifactId>
+    <version>2.0.4</version>
+</dependency>
+```
 ### Folder Structure
 The plugin looks for mithril JavaScript class files in ```/src/main/resources/mithril``` by default.
 The layout of the page is in ```layout.html```, and the components are in any ```*.js``` files in the directory
