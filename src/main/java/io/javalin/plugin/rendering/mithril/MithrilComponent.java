@@ -18,7 +18,8 @@ import io.javalin.core.util.Header;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import io.javalin.http.InternalServerErrorResponse;
-import io.javalin.plugin.json.JavalinJson;
+import io.javalin.plugin.json.JsonMapper;
+import static io.javalin.plugin.json.JsonMapperKt.JSON_MAPPER_KEY;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.HashMap;
 import java.util.Map;
@@ -68,7 +69,7 @@ public class MithrilComponent implements Handler {
                     .replace("@cdnWebjar/", JavalinMithril.isDev() ? "/webjars/" : "https://cdn.jsdelivr.net/webjars/org.webjars.npm/");
             ctx.html(page).header(Header.CACHE_CONTROL, JavalinMithril.cacheControl);
         } catch (Exception ex) {
-            throw new InternalServerErrorResponse(ex.getMessage());
+            throw new InternalServerErrorResponse(String.format("%s : %s ", ex.getClass().getName(),ex.getMessage()));
         }
     }
 
@@ -87,7 +88,7 @@ public class MithrilComponent implements Handler {
             componentState.putAll(this.localStateFunction.apply(ctx));
         }
         stateMap.put("state", componentState);
-        String stateString = JavalinJson.toJson(stateMap);
+        String stateString =  ((JsonMapper)ctx.appAttribute(JSON_MAPPER_KEY)).toJsonString(stateMap);
         return String.format("window.javalin = %s", stateString);
     }
 

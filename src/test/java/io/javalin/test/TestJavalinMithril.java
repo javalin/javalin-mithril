@@ -15,6 +15,8 @@
 package io.javalin.test;
 
 import io.javalin.http.Context;
+import io.javalin.plugin.json.JavalinJackson;
+import static io.javalin.plugin.json.JsonMapperKt.JSON_MAPPER_KEY;
 import io.javalin.plugin.rendering.mithril.JavalinMithril;
 import io.javalin.plugin.rendering.mithril.MithrilComponent;
 import static java.util.Collections.singletonMap;
@@ -270,6 +272,6 @@ public class TestJavalinMithril {
     }
 
     private Context getMockedContext() {
-        return new Context(mock(HttpServletRequest.class), mock(HttpServletResponse.class), new HashMap<>());
+        return new Context(mock(HttpServletRequest.class), mock(HttpServletResponse.class), singletonMap(JSON_MAPPER_KEY, new JavalinJackson()));
     }
 }
