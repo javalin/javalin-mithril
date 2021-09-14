@@ -33,7 +33,7 @@ public class MithrilDependencyResolver {
     private final MithrilFiles mithrilFiles = new MithrilFiles();
     private final Map<String, String> mithrilFilesCache = new TreeMap<>();
     private static final Pattern IMPORT_PATTERN = Pattern.compile("@import\\s+([\\w|\\d|\\.|_]+);?");
-    private static final Pattern PACKAGE_PATTERN = Pattern.compile("@package\\s+([\\w|\\d|\\.|_]+);");
+    private static final Pattern PACKAGE_PATTERN = Pattern.compile("@package\\s+([\\w|\\d|\\.|_]+);?");
     private static final Pattern CLASS_PATTERN = Pattern.compile("class\\s*(\\S+)\\s*\\{");
 
     public MithrilDependencyResolver(Set<Path> paths) {
@@ -117,7 +117,7 @@ public class MithrilDependencyResolver {
             }
             for (MithrilFile dependency : declaredDependencies) {
                 for (String dependencyClass : dependency.fileClasses) {
-                    content = content.replaceAll(dependencyClass, dependency.fullClassName(dependencyClass));
+                    content = content.replaceAll(fullWord(dependencyClass), dependency.fullClassName(dependencyClass));
                 }
             }
 
@@ -155,6 +155,10 @@ public class MithrilDependencyResolver {
                     declaredDependencies.add(dependency);
                 }
             }
+        }
+
+        private String fullWord(String dependencyClass) {
+            return String.format("\\b%s\\b",dependencyClass);
         }
 
     }
